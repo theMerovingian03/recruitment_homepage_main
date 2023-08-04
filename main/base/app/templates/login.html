@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            min-height: 100vh;
+            /* background-color: #000000; */
+            background-image: url('{% static "images/background3.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* overflow: hidden; */
+            /* background-color: var(--my-background-color); */
+            padding-top: 50px;
+        }
+    </style>
+
+<h2 style="text-align: center;">Recruiter Login</h2>
+<div class="div5">
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_username">Username:</label>
+        <input type="text" name="username" id="id_username" required>
+        <br>
+        <label for="id_password">Password:</label>
+        <input type="password" name="password" id="id_password" required>
+        <br>
+        <input type="submit" value="Login" class="button">
+      </form>
+</div>
+<p style="text-align: center;">Don't have an account? <a href="{% url 'register' %}">Signup Here</a></p>
+
+</body>
+</html>

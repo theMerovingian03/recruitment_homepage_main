@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Submissions</title>
+</head>
+
+<body>
+    <style>
+        body {
+            min-height: 100vh;
+            /* background-color: #000000; */
+            background-image: url('{% static "images/background3.png" %}');
+            background-size: cover;
+    
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+            /* overflow: hidden; */
+            /* background-color: var(--my-background-color); */
+            padding-top: 50px;
+
+        }
+
+        .my-table {
+            margin: 0 auto;
+            font-size: large;
+            width: 80%;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        .my-table tr {
+            text-decoration: none;
+        }
+
+        .my-table tr:hover {
+            color: white;
+            background-color: rgb(57, 57, 57);
+        }
+
+    </style>
+
+    <header class="header">
+        <a href="#" class="logo">Logo</a>
+
+        <nav class="navbar">
+            <a href="{% url 'logout' %}">Logout</a>
+        </nav>
+    </header>
+
+    <h2 style="text-align: center;">Submissions:</h2>
+    <br>
+    <table class="my-table">
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Choice</th>
+            <th>Experience</th>
+            <th>Link</th>
+        </tr>
+        {% for applicant in applicants %}
+        <tr onclick="window.location.href='{% url 'home' %}'">
+            <td>{{ applicant.firstName }} {{ applicant.lastName }}</td>
+            <td>{{ applicant.email }}</td>
+            <td>{{ applicant.get_dropdown1_display }}</td>
+            <td>{{ applicant.get_dropdown2_display }}</td>
+            <td><a href="{{ applicant.fileUpload.url }}">Portfolio</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <style>
+        body {
+            min-height: 100vh;
+            /* background-color: #000000; */
+            background-image: url('{% static "images/background3.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* overflow: hidden; */
+            /* background-color: var(--my-background-color); */
+            padding-top: 50px;
+        }
+    </style>
+    
+<h2 style="text-align: center;">Recuriter Sign Up</h2>
+    <div class="div5">
+        <form method="POST">
+            {% csrf_token %}
+            <label>{{form.username.label}}</label>
+            {{form.username}}
+    
+            <label>{{form.password1.label}}</label>
+            {{form.password1}}
+    
+            <label>{{form.password2.label}}</label>
+            {{form.password2}}
+            <input class="button" type="submit" value="Register">
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</body>
+</html>

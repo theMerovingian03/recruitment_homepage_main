@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Welcome!</title>
+    <script>
+        // JavaScript function to show the success message popup
+        function showSuccessPopup() {
+            alert("Form submitted successfully!");
+            // You can customize the popup window using a modal library like Bootstrap if desired.
+        }
+    </script>
+</head>
+
+<body>
+    <!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  // Function to handle file upload with AJAX
+  function uploadFile(file) {
+    var formData = new FormData();
+    formData.append('fileUpload', file);
+
+    // Get the CSRF token from the page's cookies
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajax({
+      url: "{% url 'upload_file' %}",  // Replace 'upload_file' with the URL pattern name for your view handling the file upload
+      type: 'POST',
+      data: formData,
+      processData: false,
+      contentType: false,
+      beforeSend: function(xhr) {
+        xhr.setRequestHeader('X-CSRFToken', csrftoken); // Include the CSRF token in the request headers
+      },
+      xhr: function() {
+        var xhr = $.ajaxSettings.xhr();
+        if (xhr.upload) {
+          xhr.upload.addEventListener('progress', function(event) {
+            if (event.lengthComputable) {
+              var percentage = (event.loaded / event.total) * 100;
+              // Update the loading bar element
+              $('.progress-bar').css('width', percentage + '%');
+              $('.progress-bar').text(percentage.toFixed(2) + '%');
+            }
+          }, false);
+        }
+        return xhr;
+      },
+      success: function(response) {
+        // Handle success response here, if needed
+      },
+      error: function(xhr, status, error) {
+        // Handle error response here, if needed
+      }
+    });
+  }
+
+  // Rest of your JavaScript code...
+});
+
+  // Event listener for file input change
+  $('#fileUpload').on('change', function() {
+    var file = this.files[0];
+    uploadFile(file);
+  });
+</script>
+    <style>
+        body {
+            min-height: 100vh;
+            /* background-color: #000000; */
+            background-image: url('{% static "images/background3.png" %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            /* overflow: hidden; */
+            /* background-color: var(--my-background-color); */
+            padding-top: 50px;
+        }
+    </style>
+    <header class="header">
+        <a href="#" class="logo">Logo</a>
+
+        <nav class="navbar">
+            <a href="#section-6">Apply Now!</a>
+            <a href="#section-8">About Us</a>
+            <a href="{% url 'register' %}">Reecruiter Signup</a>
+            <a href="{% url 'login' %}">Recuriter Login</a>
+        </nav>
+    </header>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <section id="section-1" class="clearfix" style="margin-bottom: 40px;">
+        <div class="div1">
+            <h2>Welcome to Website name</h2>
+            <h4><a href="#section-4">Find</a></h4>
+            <h4><a href="#section-6">Apply</a></h4>
+            <h4><a href="#section-5">Hire/Get Hired</a></h4>
+        </div>
+
+        <div class="div2">
+            <h2>Who are we?</h2>
+            <h4>Company Name is a platform</h4>
+            <h4>for professionals and agencies to search for opportunities</h4>
+            <h4>and develop solutions.</h4>
+        </div>
+    </section>
+
+    <section id="section-4" class="clearfix" class="section-4">
+        <div class="container">
+            <h2 class="heading">How to Apply? 3 Easy Steps</h2>
+            <div class="sec33">
+                <img src="{% static 'images/resume.png' %}" alt="">
+                <h3>Step 1: Fill details</h3>
+                <p>Fill in the below application with your correct details and attach your resume, mention any queries
+                    if you want</p>
+            </div>
+            <div class="sec33">
+                <img src="{% static 'images/mail.png' %}" alt="">
+                <h3>Step 2: Submit Application</h3>
+                <p>Check for any mistakes in your application. Once confirmed, click on "Submit" to submit your
+                    application</p>
+            </div>
+            <div class="sec33">
+                <img src="{% static 'images/handshake.png' %}" alt="">
+                <h3>Step 3: Get Hired!</h3>
+                <p>Wait for sometime for recruiters to receive your application, they will reply if they think you are a
+                    suitable fit</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-3" class="clearfix">
+        <h2 style="text-align: center; margin-bottom: -20px;">Why Us?</h2>
+        <div class="div3">
+            <div class="image">
+                <img src="{% static 'images/coding.png' %}">
+            </div>
+            <div class="text">
+                <h3>Your goals, our passion</h3>
+                <h4>Our platform enables users to effectively map out their</h4>
+                <h4>skillsets and find jobs for any position.</h4>
+                <h4>The application procedure is super easy and fast replies are guaranteed</h4>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-5" class="clearfix">
+        <h2 style="text-align: center;">Our Testimonials</h2>
+        <div class="wrapper">
+            <img src="{% static 'images/man.png' %}" alt="">
+            <div class="text-box">
+                <h2>Profile 1 says</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque perferendis non consequuntur
+                    reprehenderit voluptatum nesciunt unde dolorem numquam dolore dolores, eaque ipsum tempore iure
+                    mollitia aliquam, molestias perspiciatis, quae labore!</p>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <img src="{% static 'images/profile2.png' %}" alt="">
+            <div class="text-box">
+                <h2>Profile 2 says</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque perferendis non consequuntur
+                    reprehenderit voluptatum nesciunt unde dolorem numquam dolore dolores, eaque ipsum tempore iure
+                    mollitia aliquam, molestias perspiciatis, quae labore!</p>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <img src="{% static 'images/woman.png' %}" alt="">
+            <div class="text-box">
+                <h2>Profile 3 says</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque perferendis non consequuntur
+                    reprehenderit voluptatum nesciunt unde dolorem numquam dolore dolores, eaque ipsum tempore iure
+                    mollitia aliquam, molestias perspiciatis, quae labore!</p>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <img src="{% static 'images/profile.png' %}" alt="">
+            <div class="text-box">
+                <h2>Profile 4 says</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque perferendis non consequuntur
+                    reprehenderit voluptatum nesciunt unde dolorem numquam dolore dolores, eaque ipsum tempore iure
+                    mollitia aliquam, molestias perspiciatis, quae labore!</p>
+            </div>
+        </div>
+
+        <h3 class="customh3" onclick="window.location.href='#'">View More</h3>
+    </section>
+
+    <section id="section-2" class="clearfix">
+        <h2 style="text-align: center; text-decoration:wavy;">Domains:</h2>
+        <div class="carousel">
+            <div class="slide-container">
+                <div class="slide">
+                    <img src="{% static 'images/software-dev.jpg' %}" alt="software-dev"
+                        onclick="window.location.href='#'">
+                    <div class="overlay" onclick="window.location.href='#'">Development</div>
+                </div>
+
+                <div class="slide">
+                    <img src="{% static 'images/banking.jpg' %}" alt="banking" onclick="window.location.href='#'">
+                    <div class="overlay" onclick="window.location.href='#'">Testing</div>
+                </div>
+
+                <div class="slide">
+                    <img src="{% static 'images/social-media.jpg' %}" alt="social-media"
+                        onclick="window.location.href='#'">
+                    <div class="overlay" onclick="window.location.href='#'">AI</div>
+                </div>
+
+                <div class="slide">
+                    <img src="{% static 'images/fast-food.jpg' %}" alt="fast-food" onclick="window.location.href='#'">
+                    <div class="overlay" onclick="window.location.href='#'">Blockchain</div>
+                </div>
+
+                <div class="slide">
+                    <img src="{% static 'images/medicine.jpg' %}" alt="medicine" onclick="window.location.href='#'">
+                    <div class="overlay" onclick="window.location.href='#'">Database</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-6" class="clearfix">
+        <h2 style="text-align: center;">Application Form</h2>
+        <p style="text-align: center;">Apply now to increase your chances of being selected!</p>
+        <br>
+        <!-- <div class="div4">
+            <h2>Apply Now!</h2>
+            <p>Apply now to increase your chances of being selected</p>
+        </div> -->
+
+        <div class="div5">
+            <form action="{% url 'submit_form' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <label for="name">Current industry:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="option1">Male</option>
+                    <option value="option2">Female</option>
+                    <option value="option3">Prefer not to say</option>
+                </select>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required>
+
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" required></textarea>
+
+                <label for="position">Position:</label>
+                <input type="text" id="position" name="position" required>
+
+                <label for="dropdown1">Field:</label>
+                <select id="dropdown1" name="dropdown1" required>
+                  <option value="ai">Artificial Intelligence</option>
+                  <option value="web-dev">Web Development</option>
+                  <option value="blockchain">Blockchain</option>
+                  <option value="testing">Testing</option>
+                  <option value="database">Database</option>
+                </select>
+          
+                <label for="dropdown2">Years of Experience:</label>
+                <select id="dropdown2" name="dropdown2" required>
+                  <option value="beginner">0-5 yrs</option>
+                  <option value="intermediate">5-10 yrs</option>
+                  <option value="advanced">10-20 yrs</option>
+                  <option value="master">20+ yrs</option>
+                </select>
+          
+                <label for="dropdown3">Availability:</label>
+                <select id="dropdown3" name="dropdown3" required>
+                  <option value="option1">Offline</option>
+                  <option value="option2">Online</option>
+                  <option value="option3">Hybrid</option>
+                </select>
+          
+                <label for="fileUpload" class="file-upload-label">Upload Resume:</label>
+                <input type="file" id="fileUpload" name="fileUpload" accept=".pdf, .doc, .docx" required><br>
+                <div class="progress">
+                  <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                </div><br>
+          
+                <input type="submit" value="Submit">
+              </form>
+            </div>
+
+    </section>
+
+    <section id="section-7" class="clearfix">
+        <h2 style="text-align: center;">Coming Soon!</h2>
+        <div class="wrapper">
+            <img src="{% static 'images/training.png' %}" alt="">
+            <div class="text-box">
+                <h2>Trainings</h2>
+                <p>Training courses and live lectures so you can get a competitive edge! Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit. Voluptatibus suscipit delectus consequatur soluta qui illo error
+                    recusandae eum laudantium alias.</p>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <img src="{% static 'images/search.png' %}" alt="">
+            <div class="text-box">
+                <h2>Personal Feedback</h2>
+                <p>Our industry experts will personally give you feedback and guidance for your applications Lorem ipsum
+                    dolor sit amet consectetur adipisicing elit. Harum neque tenetur officiis. Tempora, nihil optio?</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-8" class="clearfix">
+        <div class="div1">
+            <h2>About Us</h2>
+            <h4>Group of Passionate developers</h4>
+            <h4>who aim at providing a robust and reliable</h4>
+            <h4>platform</h4>
+        </div>
+
+        <div class="div2">
+            <h2>Contact</h2>
+            <h4>Pune</h4>
+            <h4>company-email@gmail.com</h4>
+            <h4>+91 0000 0000</h4>
+        </div>
+    </section>
+
+</body>
+<footer>
+    <p style="text-align: center;">&copy; 2023 Company Name. All rights reserved.</p>
+    <p style="text-align: center; margin-bottom: 30px;">Designed by Rishi Borade</p>
+</footer>
+
+</html>
